@@ -9,9 +9,6 @@ import requests
 from requests.auth import HTTPBasicAuth
 import binascii
 
-print('cmd entry:', sys.argv)
-
-
 def generateBlockHash(header):
 
      def hash256(s):
@@ -84,8 +81,6 @@ if __name__ == '__main__':
      }
      
      if (len(sys.argv) == 1):
-          res = generateBlockHash(header)
-     else:
           data = '{"method": "getbestblockhash", "params": []}'
           url = "http://127.0.0.1:8332/"
           auth = HTTPBasicAuth("raspibolt", getpass.getpass('password'))
@@ -97,4 +92,12 @@ if __name__ == '__main__':
           result2 = response2.json()['result']
           
           res = generateBlockHash(result2)
-     
+     elif (len(sys.argv) == 2):
+          url = "http://127.0.0.1:8332/"
+          auth = HTTPBasicAuth("raspibolt", getpass.getpass('password'))
+          data2 = json.dumps({"method": "getblockheader", "params": [sys.argv[1]]})
+          response2 = requests.post(url, data = data2, auth = auth )
+          result2 = response2.json()['result']
+          res = generateBlockHash(result2)
+     else:
+          res = generateBlockHash(header)

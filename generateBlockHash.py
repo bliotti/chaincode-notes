@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-# Hello
 
+import sys
 import hashlib
+import getpass
 import struct
+import requests
+from requests.auth import HTTPBasicAuth
 import binascii
+
+print('cmd entry:', sys.argv)
+
 
 def generateBlockHash(header):
 
@@ -76,5 +82,18 @@ if __name__ == '__main__':
      "nextblockhash": "0000000000001c0533ea776756cb6fdedbd952d3ab8bc71de3cd3f8a44cbaf85"
      }
      
-     res = generateBlockHash(header)
+     if (sys.argv[1] == ''):
+          res = generateBlockHash(header)
+     else:
+          data = '{"method": "getbestblockhash", "params": []}'
+          url = "http://127.0.0.1:8332/"
+          auth = HTTPBasicAuth(getpass.getpass("user"), getpass.getpass('password'))
+          response = requests.post(url, data = data, auth = auth )
+          result = response.json()['result']
+          
+          data2 = {"method": "getblock", "params": [result]}
+          response2 = requests.post(url, data = str(data), auth = auth )
+          result2 = response2.json()['result']
+          
+          res = generateBlockHash(result2)
      

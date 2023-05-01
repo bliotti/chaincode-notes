@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import sys
 import hashlib
 import getpass
@@ -91,7 +92,7 @@ if __name__ == '__main__':
           response = requests.post(url, data = data, auth = auth )
           result = response.json()['result']
           
-          data2 = '{"method": "getblockheader", "params": [%s]}'.format(result)
+          data2 = json.dumps({"method": "getblockheader", "params": [result]})
           response2 = requests.post(url, data = data2, auth = auth )
           result2 = response2.json()['result']
           

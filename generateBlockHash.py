@@ -23,30 +23,30 @@ def generateBlockHash(header):
           '''build the block header string'''
           v = deal_str(s['versionHex'])
           print("version:\t\t",s['versionHex'])
-          # print(v.hex())
           pb = deal_str(s['previousblockhash'])
           print("previousblockhash:\t",s['previousblockhash'])
-          # print(pb.hex())
           mkr = deal_str(s['merkleroot'])
           print("merkleroot:\t\t",s['merkleroot'])
-          # print(mkr.hex())
           t = deal_int(s['time'])
           print("time:\t\t\t",s['time'])
-          # print(t.hex())
           b = deal_int(int(s['bits'],16))
           print("bits:\t\t\t",s['bits'])
-          # print(b.hex())
           n = deal_int(s['nonce'])
           print("nonce:\t\t\t",s['nonce'])
-          # print(n.hex())
-          
-          
+          print("\nCorrected Endiness")
+          print("version_fmt:\t\t", v.hex())
+          print("previousblockhash_fmt:\t", pb.hex())
+          print("merkleroot_fmt:\t\t", mkr.hex())
+          print("time_fmt:\t\t", t.hex())
+          print("bits_fmt:\t\t", b.hex())
+          print("nonce_fmt:\t\t", n.hex())
+                    
           return (v + pb + mkr + t + b + n)
      
 
      blkstr = buildblockstr(header)
 
-     print("blockstr:\t\t",blkstr.hex())
+     print("\nblockstr:\t\t",blkstr.hex())
 
      blockhash = binascii.hexlify(hash256(blkstr)[::-1])
 

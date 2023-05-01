@@ -82,17 +82,17 @@ if __name__ == '__main__':
      "nextblockhash": "0000000000001c0533ea776756cb6fdedbd952d3ab8bc71de3cd3f8a44cbaf85"
      }
      
-     if (sys.argv[1] == ''):
+     if (len(sys.argv) == 1):
           res = generateBlockHash(header)
      else:
           data = '{"method": "getbestblockhash", "params": []}'
           url = "http://127.0.0.1:8332/"
-          auth = HTTPBasicAuth(getpass.getpass("user"), getpass.getpass('password'))
+          auth = HTTPBasicAuth("raspibolt", getpass.getpass('password'))
           response = requests.post(url, data = data, auth = auth )
           result = response.json()['result']
           
-          data2 = {"method": "getblock", "params": [result]}
-          response2 = requests.post(url, data = str(data), auth = auth )
+          data2 = '{"method": "getblockheader", "params": [%s]}'.format(result)
+          response2 = requests.post(url, data = data2, auth = auth )
           result2 = response2.json()['result']
           
           res = generateBlockHash(result2)
